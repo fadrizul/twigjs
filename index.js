@@ -1,2 +1,2 @@
 require('coffee-script');
-module.exports = require('./src/twig');
+module.exports = require('./lib/twig');
