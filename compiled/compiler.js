@@ -4,7 +4,7 @@ Author: Fadrizul H. <fadrizul[at]gmail.com>
 */
 var Compile, Compiler, exports, pr, x;
 x = require("./regexes");
-pr = require("eyes");
+pr = require("../dev/eyes");
 Compiler = (function() {
   function Compiler(node) {
     this.node = node || {};

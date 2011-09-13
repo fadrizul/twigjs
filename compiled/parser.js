@@ -4,7 +4,7 @@ Author: Fadrizul H. <fadrizul[at]gmail.com>
 */
 var Parser, exports, pr, x;
 x = require("./regexes");
-pr = require("eyes");
+pr = require("../dev/eyes");
 Parser = (function() {
   function Parser(str, tags) {
     this.rawTokens = str ? str.trim().replace(x.Replace, "").split(x.Split) : {};

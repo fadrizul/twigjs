@@ -5,7 +5,7 @@ Author: Fadrizul H. <fadrizul[at]gmail.com>
 
 # Module dependencies
 fs = require "fs"
-pr = require "eyes" # Debugging purpose
+pr = require "../dev/eyes" # Debugging purpose
 
 # Load local lib
 Parser   = require "./parser"

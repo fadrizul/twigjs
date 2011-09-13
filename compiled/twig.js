@@ -4,7 +4,7 @@ Author: Fadrizul H. <fadrizul[at]gmail.com>
 */
 var Compiler, Parser, compile, fileRenderer, fs, pr, tags, widgets;
 fs = require("fs");
-pr = require("eyes");
+pr = require("../dev/eyes");
 Parser = require("./parser");
 Compiler = require("./compiler");
 tags = require("./tags");

@@ -2,9 +2,10 @@
 TwigJS
 Author: Fadrizul H. <fadrizul[at]gmail.com>
 */
-var Compiler, check, escape, helpers;
+var Compiler, check, escape, helpers, pr;
 Compiler = require("./compiler");
 helpers = require("./helpers");
+pr = require("../dev/eyes");
 check = helpers.check;
 escape = helpers.escape;
 exports["extends"] = {};

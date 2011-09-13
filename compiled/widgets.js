@@ -2,7 +2,8 @@
 TwigJS
 Author: Fadrizul H. <fadrizul[at]gmail.com>
 */
-var textWidgetGenerator;
+var pr, textWidgetGenerator;
+pr = require("../dev/eyes");
 textWidgetGenerator = function(tagname) {
   return function() {
     var i, output;
@@ -41,8 +42,6 @@ exports.renderSlot = function(slotContent, context) {
   output = [];
   i = 0;
   j = slot.length;
-  i;
-  j;
   while (i < j) {
     widget = slot[i];
     if (widget === void 0 || widget === null || widget === false) {

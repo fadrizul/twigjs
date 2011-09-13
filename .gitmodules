@@ -1,0 +1,6 @@
+[submodule "support/coffee-script"]
+	path = support/coffee-script
+	url = https://github.com/jashkenas/coffee-script.git
+[submodule "dev/eyes"]
+	path = dev/eyes
+	url = git://github.com/cloudhead/eyes.js.git

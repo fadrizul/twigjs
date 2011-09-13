@@ -1,0 +1,21 @@
+{
+  "author": "Fadrizul H. <fadrizul@gmail.com> (github.com/fadrizul)",
+  "name": "TwigJS",
+  "description": "A port of PHP template engine (www.twig-project.org) to Javascript",
+  "version": "0.0.1",
+  "homepage": "twigjs.org",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fadrizul/twigjs.git"
+  },
+  "main": "index.js",
+  "engines": {
+    "node": "~v0.4.11"
+  },
+  "dependencies": {
+    "coffee-script"
+  },
+  "devDependencies": {
+    "eyes"
+  }
+}

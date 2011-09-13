@@ -5,7 +5,7 @@ Author: Fadrizul H. <fadrizul[at]gmail.com>
 
 # Module dependencies
 x  = require "./regexes"
-pr = require "eyes" # Debugging purposes
+pr = require "../dev/eyes" # Debugging purposes
 
 class Compiler
   constructor: (node) ->

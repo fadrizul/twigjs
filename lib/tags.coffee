@@ -4,16 +4,17 @@ Author: Fadrizul H. <fadrizul[at]gmail.com>
 ###
 
 # Load dependencies
-Compiler = require("./compiler")
-helpers  = require("./helpers")
+Compiler = require "./compiler"
+helpers  = require "./helpers"
+pr       = require "../dev/eyes" # Debugging purposes
 
 # Declare helpers
 check   = helpers.check
 escape  = helpers.escape
 
 # Expose
-exports.extends     = {}
-exports.block       = ends: true
+exports.extends = {}
+exports.block   = ends: true
 
 # Slots
 exports.slot = (twig) ->
@@ -82,6 +83,7 @@ exports["if"] = (indent) ->
   throw new Error("Invalid arguments (" + operand2 + ") passed to 'if' tag")  if operator and not helpers.isLiteral(operand2) and not helpers.isValidName(operand2)
 
   out = [ "(function () {" ]
+
   out.push " var __op1;"
   out.push " if (" + check(operand1) + ") {"
   out.push "   __op1 = " + escape(operand1) + ";"
@@ -91,10 +93,13 @@ exports["if"] = (indent) ->
   out.push " }"
 
   if typeof operand2 == "undefined"
+
     out.push " if (" + (if negation then "!" else "!!") + "__op1) {"
     out.push commpiler.compile()
     out.push " }"
+
   else
+
     out.push " var __op2;"
     out.push " if (" + check(operand2) + ") {"
     out.push "   __op2 = " + escape(operand2) + ";"
@@ -102,14 +107,19 @@ exports["if"] = (indent) ->
     out.push " else if (" + check(operand2, "__context") + ") {"
     out.push "   __op2 = " + escape(operand2, "__context") + ";"
     out.push " }"
+
     if operator == "in"
+
       out.push " if ((Array.isArray(__op2) && __op2.indexOf(__op1) > -1) ||"
       out.push "    (typeof __op2 === \"string\" && __op2.indexOf(__op1) > -1) ||"
       out.push "    (!Array.isArray(__op2) && typeof __op2 === \"object\" && __op1 in __op2)) {"
+
     else
       out.push " if (__op1 " + escape(operator) + " __op2) {"
+
     out.push compiler.compile(this, indent + "   ")
     out.push " }"
+
   out.push "})();"
   out.join "\n" + indent
 
