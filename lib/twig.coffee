@@ -5,7 +5,7 @@ Author: Fadrizul H. <fadrizul[at]gmail.com>
 
 # Module dependencies
 fs = require "fs"
-pr = require "../dev/eyes" # Debugging purpose
+pr = require "eyes" # Debugging purpose
 
 # Load local lib
 Parser   = require "./parser"
@@ -28,10 +28,9 @@ fileRenderer = (path, options, fn) ->
   str              = fs.readFileSync(path, "utf8")
 
   if str
-    compile(str, options)
+    parse(str, options)
 
-# Integrates into http.ServerResponse via express
-exports.compile = compile = (str, options) ->
+parse = (str, options) ->
   # Collection of named properties for rendering
   twigTemplate  =
     fileRenderer : fileRenderer
@@ -47,15 +46,22 @@ exports.compile = compile = (str, options) ->
   compiler = new Compiler(twigTemplate)
   compiled = compiler.compile()
 
+  return compiled
+
+# Integrates into http.ServerResponse via express
+exports.compile = compile = (str, options) ->
+
+  compiled = parse(str, options)
   filename = if options.filename then JSON.stringify(options.filename) else "undefined"
   input    = JSON.stringify(compiled)
 
   # Rearrange the compiled input
-  js  = "buf.push(#{input})"
+  js  = "buf.push(#{ input })"
   fn  = "var __ = {
-        filename: #{filename}};
-        var buf = []; with (locals || {}) {#{js}}
+        filename: #{ filename }};
+        var buf = []; with (locals || {}) {#{ js }}
         return buf.join('');"
 
   # Sends to http.ServerResponse for rendering
   return new Function("locals", fn)
+

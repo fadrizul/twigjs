@@ -2,9 +2,9 @@
 TwigJS
 Author: Fadrizul H. <fadrizul[at]gmail.com>
 */
-var Compiler, Parser, compile, fileRenderer, fs, pr, tags, widgets;
+var Compiler, Parser, compile, fileRenderer, fs, parse, pr, tags, widgets;
 fs = require("fs");
-pr = require("../dev/eyes");
+pr = require("eyes");
 Parser = require("./parser");
 Compiler = require("./compiler");
 tags = require("./tags");
@@ -21,11 +21,11 @@ fileRenderer = function(path, options, fn) {
   options.filename = path;
   str = fs.readFileSync(path, "utf8");
   if (str) {
-    return compile(str, options);
+    return parse(str, options);
   }
 };
-exports.compile = compile = function(str, options) {
-  var compiled, compiler, filename, fn, input, js, parser, twigTemplate;
+parse = function(str, options) {
+  var compiled, compiler, parser, twigTemplate;
   twigTemplate = {
     fileRenderer: fileRenderer,
     blocks: {},
@@ -36,6 +36,11 @@ exports.compile = compile = function(str, options) {
   twigTemplate.tokens = parser.parseTokens();
   compiler = new Compiler(twigTemplate);
   compiled = compiler.compile();
+  return compiled;
+};
+exports.compile = compile = function(str, options) {
+  var compiled, filename, fn, input, js;
+  compiled = parse(str, options);
   filename = options.filename ? JSON.stringify(options.filename) : "undefined";
   input = JSON.stringify(compiled);
   js = "buf.push(" + input + ")";
