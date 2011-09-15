@@ -5,7 +5,7 @@ Author: Fadrizul H. <fadrizul[at]gmail.com>
 
 # Module dependencies
 fs = require "fs"
-pr = require "eyes" # Debugging purpose
+pr = require "../dev/eyes" # Debugging purpose
 
 # Load local lib
 Parser   = require "./parser"
@@ -14,7 +14,7 @@ tags     = require "./tags"
 widgets  = require "./widgets"
 
 # Expose
-exports.version  = "v0.0.1"
+exports.version  = "v0.0.2"
 exports.Parser   = Parser
 exports.Compiler = Compiler
 

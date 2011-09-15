@@ -4,12 +4,12 @@ Author: Fadrizul H. <fadrizul[at]gmail.com>
 */
 var Compiler, Parser, compile, fileRenderer, fs, parse, pr, tags, widgets;
 fs = require("fs");
-pr = require("eyes");
+pr = require("../dev/eyes");
 Parser = require("./parser");
 Compiler = require("./compiler");
 tags = require("./tags");
 widgets = require("./widgets");
-exports.version = "v0.0.1";
+exports.version = "v0.0.2";
 exports.Parser = Parser;
 exports.Compiler = Compiler;
 fileRenderer = function(path, options, fn) {
