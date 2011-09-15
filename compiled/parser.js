@@ -11,12 +11,12 @@ Parser = (function() {
     this.tags = tags || {};
   }
   Parser.prototype.parseTokens = function() {
-    var filterName, filters, index, part, parts, stack, tagname, token, varname, _i, _j, _len, _len2, _ref;
+    var filterName, filters, i, index, part, parts, stack, tagname, token, varname, _i, _len, _len2, _ref;
     stack = [[]];
     index = 0;
     _ref = this.rawTokens;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      token = _ref[_i];
+    for (i = 0, _len = _ref.length; i < _len; i++) {
+      token = _ref[i];
       if (token.length === 0 || x.CmntDelimiter.test(token)) {
         continue;
       }
@@ -26,8 +26,8 @@ Parser = (function() {
         filters = [];
         parts = token.replace(x.VarDelimiter, "").split("|");
         varname = parts.shift();
-        for (_j = 0, _len2 = parts.length; _j < _len2; _j++) {
-          part = parts[_j];
+        for (_i = 0, _len2 = parts.length; _i < _len2; _i++) {
+          part = parts[_i];
           if (parts.hasOwnProperty(part)) {
             parts = parts[part];
             filterName = part.match(/^\w+/);
@@ -49,6 +49,7 @@ Parser = (function() {
           name: varname,
           filters: filters
         };
+        stack[index].push(token);
       } else if (x.twigLogic.test(token)) {
         parts = token.replace(x.LogDelimiter, "").split(" ");
         tagname = parts.shift();
@@ -67,13 +68,14 @@ Parser = (function() {
           compile: this.tags[tagname]
         };
         if (this.tags[tagname].ends) {
+          token.tokens = this.rawTokens[i + 1];
           stack[index].push(token);
-          stack.push(token.tokens = []);
           index++;
           continue;
         }
+      } else {
+        stack[index].push(token);
       }
-      stack[index].push(token);
     }
     return stack[index];
   };
