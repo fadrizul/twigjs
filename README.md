@@ -7,6 +7,7 @@ A port of PHP template engine (www.twig-project.org) to Javascript
 2. Finish up twigjs.org
 3. Test cases
 4. Filters?
+5. Registers on NPM
 
 ## License
 
