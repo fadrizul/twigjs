@@ -7,7 +7,7 @@ Author: Fadrizul H. <fadrizul[at]gmail.com>
 x  = require "./regexes"
 pr = require "../dev/eyes" # Debugging purposes
 
-# This class create the Token tree
+# This class create the Parser tree
 class Parser
   constructor: (str, tags) ->
     @rawTokens = if str then str.trim().replace(x.Replace, "").split(x.Split) else {} # Rearranges str in to array
