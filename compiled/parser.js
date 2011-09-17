@@ -11,13 +11,13 @@ Parser = (function() {
     this.tags = tags || {};
   }
   Parser.prototype.parseTokens = function() {
-    var filterName, filters, i, index, part, parts, stack, tagname, token, varname, _i, _len, _len2, _ref;
+    var filterName, filters, i, index, nextIndex, part, parts, stack, tagname, token, varname, _i, _len, _len2, _ref;
     stack = [[]];
     index = 0;
     _ref = this.rawTokens;
     for (i = 0, _len = _ref.length; i < _len; i++) {
       token = _ref[i];
-      if (token.length === 0 || x.CmntDelimiter.test(token)) {
+      if (x.CmntDelimiter.test(token)) {
         continue;
       }
       if (x.Spaces.test(token)) {
@@ -67,14 +67,21 @@ Parser = (function() {
           args: parts.length ? parts : [],
           compile: this.tags[tagname]
         };
+        if (tagname === "extends") {
+          stack[index].push(token);
+        }
         if (this.tags[tagname].ends) {
-          token.tokens = this.rawTokens[i + 1];
+          nextIndex = i + 1;
+          token[parts] = this.rawTokens[nextIndex];
+          this.rawTokens.splice(nextIndex, 1);
           stack[index].push(token);
           index++;
           continue;
         }
       } else {
-        stack[index].push(token);
+        if (typeof token !== "undefined") {
+          stack[0].push(token);
+        }
       }
     }
     return stack[index];
