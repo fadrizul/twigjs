@@ -7,7 +7,7 @@ Author: Fadrizul H. <fadrizul[at]gmail.com>
 x  = require "./regexes"
 pr = require "../dev/eyes" # Debugging purposes
 
-# This class create the Parser tree
+# This class create the Token tree
 class Parser
   constructor: (str, tags) ->
     @rawTokens = if str then str.trim().replace(x.Replace, "").split(x.Split) else {} # Rearranges str in to array
@@ -20,7 +20,7 @@ class Parser
     # Loop through @rawTokens
     for token, i in @rawTokens
       # If there are comment delimters {# #} ignore it
-      continue if token.length is 0 or x.CmntDelimiter.test(token)
+      continue if x.CmntDelimiter.test(token)
 
       # Relaces empty namespaces with \n
       if x.Spaces.test(token)
@@ -78,17 +78,25 @@ class Parser
           args    : if parts.length then parts else []
           compile : @tags[tagname]
         
+        # Pushes extends tag into stack
+        if tagname is "extends"
+          stack[index].push(token)
+
         # If it's the end of the tag, pushes the string
         # in between the tags in to stack and reset index to 0
         if @tags[tagname].ends
-          token.tokens = @rawTokens[i+1]
+          nextIndex = i + 1
+          token[parts] = @rawTokens[nextIndex]
+          @rawTokens.splice(nextIndex, 1)
+
           stack[index].push(token)
           index++
           continue
       # If it's only string, pushes it into stack for compiling
-      else
-        stack[index].push(token)
-      
+      else 
+        if typeof token isnt "undefined"
+          stack[0].push(token)  
+
     # return the new Parser tree
     return stack[index]
 
