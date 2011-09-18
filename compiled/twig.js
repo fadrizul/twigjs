@@ -1,10 +1,10 @@
 /*
 TwigJS
-Author: Fadrizul H. <fadrizul[at]gmail.com>
+Copyright(c) 2011 Fadrizul Hasani <fadrizul@twigjs.org>
+MIT Licensed
 */
-var Compiler, Parser, compile, fileRenderer, fs, parse, pr, tags, widgets;
+var Compiler, Parser, compile, fileRenderer, fs, parse, tags, widgets;
 fs = require("fs");
-pr = require("../dev/eyes");
 Parser = require("./parser");
 Compiler = require("./compiler");
 tags = require("./tags");
