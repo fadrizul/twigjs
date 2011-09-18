@@ -19,7 +19,7 @@ First we need to declare the extension of your view files. This can be anything 
 	});
 
 	// Include in TwigJS
-	var twigjs = require('twigjs')
+	var twigjs = require('twigjs');
 	app.register('html', twigjs);
 
 	// Rendering "/index" view file 
