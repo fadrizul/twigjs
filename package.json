@@ -1,5 +1,5 @@
 {
-  "author": "Fadrizul H. <fadrizul@gmail.com> (github.com/fadrizul)",
+  "author": "Fadrizul Hasani <fadrizul@twigjs.org> (github.com/fadrizul)",
   "name": "twigjs",
   "description": "A port of PHP template engine (www.twig-project.org) to Javascript",
   "version": "0.0.3",
