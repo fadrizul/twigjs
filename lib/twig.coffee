@@ -14,7 +14,7 @@ tags     = require "./tags"
 widgets  = require "./widgets"
 
 # Expose
-exports.version  = "v0.0.2"
+exports.version  = "v0.0.3"
 exports.Parser   = Parser
 exports.Compiler = Compiler
 
