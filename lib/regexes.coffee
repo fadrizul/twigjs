@@ -1,6 +1,7 @@
 ###
 TwigJS
-Author: Fadrizul H. <fadrizul[at]gmail.com>
+Copyright(c) 2011 Fadrizul Hasani <fadrizul@twigjs.org>
+MIT Licensed
 ###
 
 # Constants

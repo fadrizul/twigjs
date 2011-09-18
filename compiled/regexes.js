@@ -1,6 +1,7 @@
 /*
 TwigJS
-Author: Fadrizul H. <fadrizul[at]gmail.com>
+Copyright(c) 2011 Fadrizul Hasani <fadrizul@twigjs.org>
+MIT Licensed
 */exports.TEMPLATE = 0;
 exports.LOGIC_TOKEN = 1;
 exports.VAR_TOKEN = 2;

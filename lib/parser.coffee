@@ -1,13 +1,13 @@
 ###
 TwigJS
-Author: Fadrizul H. <fadrizul[at]gmail.com>
+Copyright(c) 2011 Fadrizul Hasani <fadrizul@twigjs.org>
+MIT Licensed
 ###
 
 # Load regexes
 x  = require "./regexes"
-pr = require "../dev/eyes" # Debugging purposes
 
-# This class create the Token tree
+# This class create the Parser tree
 class Parser
   constructor: (str, tags) ->
     @rawTokens = if str then str.trim().replace(x.Replace, "").split(x.Split) else {} # Rearranges str in to array
@@ -54,7 +54,7 @@ class Parser
           filters : filters
         
         # Pushes the new tree into stack
-        stack[index].push(token)
+        stack[0].push token
 
       # Get Logic delimiters {% %}
       else if x.twigLogic.test(token)
@@ -93,8 +93,8 @@ class Parser
           index++
           continue
       # If it's only string, pushes it into stack for compiling
-      else 
-        if typeof token isnt "undefined"
+      else if token isnt ""
+        if typeof token isnt "undefined" 
           stack[0].push(token)  
 
     # return the new Parser tree

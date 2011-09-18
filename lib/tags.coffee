@@ -1,12 +1,12 @@
 ###
 TwigJS
-Author: Fadrizul H. <fadrizul[at]gmail.com>
+Copyright(c) 2011 Fadrizul Hasani <fadrizul@twigjs.org>
+MIT Licensed
 ###
 
 # Load dependencies
 Compiler = require "./compiler"
 helpers  = require "./helpers"
-pr       = require "../dev/eyes" # Debugging purposes
 
 # Declare helpers
 check   = helpers.check

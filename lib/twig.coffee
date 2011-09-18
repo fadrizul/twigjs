@@ -1,11 +1,11 @@
 ###
 TwigJS
-Author: Fadrizul H. <fadrizul[at]gmail.com>
+Copyright(c) 2011 Fadrizul Hasani <fadrizul@twigjs.org>
+MIT Licensed
 ###
 
 # Module dependencies
 fs = require "fs"
-pr = require "../dev/eyes" # Debugging purpose
 
 # Load local lib
 Parser   = require "./parser"
@@ -67,4 +67,3 @@ exports.compile = compile = (str, options) ->
 
   # Sends to http.ServerResponse for rendering
   return new Function("locals", fn)
-

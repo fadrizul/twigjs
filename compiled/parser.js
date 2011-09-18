@@ -1,10 +1,10 @@
 /*
 TwigJS
-Author: Fadrizul H. <fadrizul[at]gmail.com>
+Copyright(c) 2011 Fadrizul Hasani <fadrizul@twigjs.org>
+MIT Licensed
 */
-var Parser, exports, pr, x;
+var Parser, exports, x;
 x = require("./regexes");
-pr = require("../dev/eyes");
 Parser = (function() {
   function Parser(str, tags) {
     this.rawTokens = str ? str.trim().replace(x.Replace, "").split(x.Split) : {};
@@ -49,7 +49,7 @@ Parser = (function() {
           name: varname,
           filters: filters
         };
-        stack[index].push(token);
+        stack[0].push(token);
       } else if (x.twigLogic.test(token)) {
         parts = token.replace(x.LogDelimiter, "").split(" ");
         tagname = parts.shift();
@@ -78,7 +78,7 @@ Parser = (function() {
           index++;
           continue;
         }
-      } else {
+      } else if (token !== "") {
         if (typeof token !== "undefined") {
           stack[0].push(token);
         }

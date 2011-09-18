@@ -1,6 +1,7 @@
 /*
 TwigJS
-Author: Fadrizul H. <fadrizul[at]gmail.com>
+Copyright(c) 2011 Fadrizul Hasani <fadrizul@twigjs.org>
+MIT Licensed
 */
 var isLiteral, isStringLiteral, isValidBlockName, isValidName, isValidShortName, x;
 x = require("./regexes");
@@ -68,7 +69,7 @@ exports.escape = function(variable, context) {
   }
   chain = "";
   props = variable.split(".");
-  props.forEach(function(prop) {
+  rops.forEach(function(prop) {
     return chain += (chain ? (isNaN(prop) ? "." + prop : "[" + prop + "]") : prop);
   });
   return chain.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
