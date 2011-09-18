@@ -1,11 +1,11 @@
 /*
 TwigJS
-Author: Fadrizul H. <fadrizul[at]gmail.com>
+Copyright(c) 2011 Fadrizul Hasani <fadrizul@twigjs.org>
+MIT Licensed
 */
-var Compile, Compiler, exports, helpers, pr, x;
+var Compile, Compiler, exports, helpers, x;
 x = require("./regexes");
 helpers = require("./helpers");
-pr = require("../dev/eyes");
 Compiler = (function() {
   function Compiler(node) {
     this.node = node || {};
@@ -13,9 +13,8 @@ Compiler = (function() {
     this.type = node.type;
   }
   Compiler.prototype.compile = function() {
-    var blockName, blocks, errMsg, i, merge, p, parent, parentBlock, path, token, tokens, _i, _len, _len2;
+    var blockName, errMsg, i, merge, p, parent, parentBlock, path, token, tokens, _i, _len, _len2;
     tokens = this.node.tokens;
-    blocks = this.node.blocks;
     parent = {};
     merge = [];
     if (this.type === x.TEMPLATE) {
@@ -40,7 +39,7 @@ Compiler = (function() {
             if (parent) {
               for (_i = 0, _len2 = parent.length; _i < _len2; _i++) {
                 p = parent[_i];
-                if (typeof p !== "string") {
+                if (typeof p !== "string" && p.name === "block") {
                   parentBlock = p.args;
                   if (parentBlock.toString() === blockName.toString()) {
                     p[blockName] = token[parentBlock];
@@ -53,13 +52,13 @@ Compiler = (function() {
         }
       }
       merge = merge.concat(tokens, parent);
-      return this.out(merge);
     }
+    return this.out(merge);
   };
-  Compiler.prototype.out = function(tok) {
+  Compiler.prototype.out = function(merge) {
     var blockName, i, t, varOut, _len;
-    for (i = 0, _len = tok.length; i < _len; i++) {
-      t = tok[i];
+    for (i = 0, _len = merge.length; i < _len; i++) {
+      t = merge[i];
       if (typeof t === "string" && t.name !== "block") {
         this.html.push(t);
       }
