@@ -2,8 +2,9 @@
 TwigJS
 Author: Fadrizul H. <fadrizul[at]gmail.com>
 */
-var Compile, Compiler, exports, pr, x;
+var Compile, Compiler, exports, helpers, pr, x;
 x = require("./regexes");
+helpers = require("./helpers");
 pr = require("../dev/eyes");
 Compiler = (function() {
   function Compiler(node) {
@@ -12,44 +13,54 @@ Compiler = (function() {
     this.type = node.type;
   }
   Compiler.prototype.compile = function() {
-    var blockName, blocks, errMsg, parent, path, token, tokens, _i, _len;
+    var blockName, blocks, errMsg, i, merge, p, parent, parentBlock, path, token, tokens, _i, _len, _len2;
     tokens = this.node.tokens;
     blocks = this.node.blocks;
+    parent = {};
+    merge = [];
     if (this.type === x.TEMPLATE) {
-      for (_i = 0, _len = tokens.length; _i < _len; _i++) {
-        token = tokens[_i];
-        if (token.name === "extends") {
-          path = this.node.options.root.replace(/['"]/g, "") + "/" + token.args[0].replace(/['"]/g, "");
-          errMsg = "Only one string literal accepted of Extends.";
-          if (token.args.length > 1) {
-            throw new Error(errMsg);
+      for (i = 0, _len = tokens.length; i < _len; i++) {
+        token = tokens[i];
+        if (typeof token !== "undefined") {
+          if (token.name === "extends") {
+            path = this.node.options.root.replace(/['"]/g, "") + "/" + token.args[0].replace(/['"]/g, "");
+            errMsg = "Only one string literal accepted of Extends.";
+            if (token.args.length > 1) {
+              throw new Error(errMsg);
+            }
+            parent = this.node.fileRenderer(path, this.node.options);
+          } else if (token.name === "block") {
+            blockName = token.args;
+            if (!helpers.isValidBlockName(blockName)) {
+              throw new Error("Invalid syntax.");
+            }
+            if (this.type !== x.TEMPLATE) {
+              throw new Error("Multiple block tag detected");
+            }
+            if (parent) {
+              for (_i = 0, _len2 = parent.length; _i < _len2; _i++) {
+                p = parent[_i];
+                if (typeof p !== "string") {
+                  parentBlock = p.args;
+                  if (parentBlock.toString() === blockName.toString()) {
+                    p[blockName] = token[parentBlock];
+                    tokens.splice(i, 1);
+                  }
+                }
+              }
+            }
           }
-          token.template = this.node.fileRenderer(path, this.node.options);
-          pr.ins("no extends");
-        } else if (token.name === "block") {
-          blockName = token.args[0];
-          if (!helpers.isValidBlockName(blockName || token.args.length > 1)) {
-            throw new Error("Invalid syntax.");
-          }
-          if (this.type !== x.TEMPLATE) {
-            throw new Error("Multiple block tag detected");
-          }
-          this.node.blocks[blockName] = this.out(token.tokens);
-          pr.ins("no blocks");
         }
       }
-      if (tokens[0].name === "extends") {
-        parent = tokens[0].template;
-        this.node.blocks = helpers.merge(parent.blocks, this.node.blocks);
-      }
-      return this.out(tokens);
+      merge = merge.concat(tokens, parent);
+      return this.out(merge);
     }
   };
   Compiler.prototype.out = function(tok) {
-    var t, varOut, _i, _len;
-    for (_i = 0, _len = tok.length; _i < _len; _i++) {
-      t = tok[_i];
-      if (typeof t === "string") {
+    var blockName, i, t, varOut, _len;
+    for (i = 0, _len = tok.length; i < _len; i++) {
+      t = tok[i];
+      if (typeof t === "string" && t.name !== "block") {
         this.html.push(t);
       }
       if (t.type === x.VAR_TOKEN) {
@@ -62,6 +73,10 @@ Compiler = (function() {
         if (this.type !== x.TEMPLATE) {
           throw new Error("Nested blocks isn't supported yet.");
         }
+      }
+      if (t.name === "block") {
+        blockName = t.args;
+        this.html.push(t[blockName.toString()]);
       }
     }
     return this.html.join("");

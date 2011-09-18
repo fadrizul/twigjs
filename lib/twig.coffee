@@ -23,12 +23,15 @@ fileRenderer = (path, options, fn) ->
   if typeof options is "function"
     fn      = options
     options = {}
-
   options.filename = path
-  str              = fs.readFileSync(path, "utf8")
 
+  str    = fs.readFileSync(path, "utf8")
+  tokens = {}
   if str
-    parse(str, options)
+    parser = new Parser(str, tags)
+    tokens = parser.parseTokens()
+  
+  return tokens
 
 parse = (str, options) ->
   # Collection of named properties for rendering

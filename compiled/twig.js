@@ -13,16 +13,19 @@ exports.version = "v0.0.2";
 exports.Parser = Parser;
 exports.Compiler = Compiler;
 fileRenderer = function(path, options, fn) {
-  var str;
+  var parser, str, tokens;
   if (typeof options === "function") {
     fn = options;
     options = {};
   }
   options.filename = path;
   str = fs.readFileSync(path, "utf8");
+  tokens = {};
   if (str) {
-    return parse(str, options);
+    parser = new Parser(str, tags);
+    tokens = parser.parseTokens();
   }
+  return tokens;
 };
 parse = function(str, options) {
   var compiled, compiler, parser, twigTemplate;

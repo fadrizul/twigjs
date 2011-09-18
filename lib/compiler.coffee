@@ -4,7 +4,8 @@ Author: Fadrizul H. <fadrizul[at]gmail.com>
 ###
 
 # Module dependencies
-x  = require "./regexes"
+x       = require "./regexes"
+helpers = require "./helpers"
 pr = require "../dev/eyes" # Debugging purposes
 
 class Compiler
@@ -14,39 +15,42 @@ class Compiler
     @type   = node.type
 
   compile: ->
-    tokens  = @node.tokens
-    blocks  = @node.blocks
+    tokens = @node.tokens
+    blocks = @node.blocks
+    parent = {}
+    merge  = []
 
     if @type is x.TEMPLATE
-      for token in tokens
+      for token, i in tokens
+        if typeof token isnt "undefined"
+          if token.name is "extends"
+            path = @node.options.root.replace(/['"]/g, "") + "/" + token.args[0].replace(/['"]/g, "")
 
-        if token.name is "extends"
-          path = @node.options.root.replace(/['"]/g, "") + "/" + token.args[0].replace(/['"]/g, "")
+            errMsg = "Only one string literal accepted of Extends."
+            throw new Error errMsg if token.args.length > 1
 
-          errMsg = "Only one string literal accepted of Extends."
-          throw new Error errMsg if token.args.length > 1
+            parent = @node.fileRenderer(path, @node.options)
+          else if token.name is "block"
+            blockName = token.args
 
-          token.template = @node.fileRenderer(path, @node.options)
-          pr.ins "no extends"
-        else if token.name is "block"
-          blockName = token.args[0]
+            throw new Error "Invalid syntax." if not helpers.isValidBlockName blockName
+            throw new Error "Multiple block tag detected" if @type isnt x.TEMPLATE
 
-          throw new Error "Invalid syntax." if not helpers.isValidBlockName blockName or token.args.length > 1
-          throw new Error "Multiple block tag detected" if @type isnt x.TEMPLATE
+            if parent
+              for p in parent
+                if typeof p isnt "string" 
+                  parentBlock = p.args
+                  if parentBlock.toString() is blockName.toString()
+                    p[blockName] = token[parentBlock]
+                    tokens.splice(i, 1)
 
-          @node.blocks[blockName] = @out(token.tokens)
-          pr.ins "no blocks"
-
-
-      if tokens[0].name is "extends"
-        parent = tokens[0].template
-        @node.blocks = helpers.merge(parent.blocks, @node.blocks)
-
-      @out(tokens)
+      merge = merge.concat(tokens, parent)
+      
+      @out merge
 
   out: (tok) ->
-    for t in tok
-      if typeof t is "string"
+    for t, i in tok
+      if typeof t is "string" and t.name isnt "block"
         @html.push t
 
       if t.type is x.VAR_TOKEN
@@ -57,6 +61,10 @@ class Compiler
 
         throw new Error "Extends tag must be the first tag in the template" if @type isnt x.TEMPLATE
         throw new Error "Nested blocks isn't supported yet." if @type isnt x.TEMPLATE
+
+      if t.name is "block"
+        blockName = t.args
+        @html.push t[blockName.toString()]
 
     @html.join ""
 
