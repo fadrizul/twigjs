@@ -1,6 +1,6 @@
 {
   "author": "Fadrizul H. <fadrizul@gmail.com> (github.com/fadrizul)",
-  "name": "TwigJS",
+  "name": "twigjs",
   "description": "A port of PHP template engine (www.twig-project.org) to Javascript",
   "version": "0.0.2",
   "homepage": "twigjs.org",
