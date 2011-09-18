@@ -12,10 +12,6 @@
   "engines": {
     "node": "~v0.4.11"
   },
-  "dependencies": {
-    "coffee-script"
-  },
-  "devDependencies": {
-    "eyes"
-  }
+  "dependencies": {},
+  "devDependencies": {}
 }
