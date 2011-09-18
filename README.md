@@ -32,9 +32,6 @@ First we need to declare the extension of your view files. This can be anything 
 	});
 To set values for variable tags, you need to include it as options in res.render() function. In this example we're setting values for {{ name }} and {{ title }}.
 
-<<<<<<< HEAD
-###Template inheritance:
-=======
 ###Template inheritance
 >>>>>>> Add usage example.
 The most powerful part of TwigJS is template inheritance. Template inheritance allows you to build a base “skeleton” template that contains all the common elements of your site and defines blocks that child templates can override.
