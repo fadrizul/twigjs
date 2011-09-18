@@ -1,9 +1,9 @@
 /*
 TwigJS
-Author: Fadrizul H. <fadrizul[at]gmail.com>
+Copyright(c) 2011 Fadrizul Hasani <fadrizul@twigjs.org>
+MIT Licensed
 */
-var pr, textWidgetGenerator;
-pr = require("../dev/eyes");
+var textWidgetGenerator;
 textWidgetGenerator = function(tagname) {
   return function() {
     var i, output;
