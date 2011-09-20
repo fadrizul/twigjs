@@ -3,7 +3,7 @@ TwigJS - Parser Test cases
 ###
 
 # Module dependencies
-testCase = require("nodeunit").testCase
+testCase = require("../dev/nodeunit").testCase
 Parser   = require "../lib/parser"
 
 # Comments test cases
