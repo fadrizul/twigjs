@@ -36,7 +36,6 @@ class Parser
         for part in parts
           if parts.hasOwnProperty(part)
             parts       = parts[part]
-            filterName  = part.match(/^\w+/)
 
           if x.LBracket.test(part)
             filters.push

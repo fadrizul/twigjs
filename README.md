@@ -37,6 +37,15 @@ First we need to declare the extension of your view files. This can be anything 
 	});
 To set values for variable tags, you need to include it as options in res.render() function. In this example we're setting values for {{ name }} and {{ title }}.
 
+###Variables
+The application passes variables to the templates you can mess around in the template. Variables may have attributes or elements on them you can access too. How a variable looks like, heavily depends on the application providing those.
+
+You can use a dot (.) to access attributes of a variable, alternative the so-called “subscript” syntax ([]) can be used. The following lines do the same:
+
+	{ foo.bar }}
+	{{ foo['bar'] }}
+*It’s important to know that the curly braces are not part of the variable but the print statement. If you access variables inside tags don’t put the braces around.
+
 ###Template inheritance
 The most powerful part of TwigJS is template inheritance. Template inheritance allows you to build a base “skeleton” template that contains all the common elements of your site and defines blocks that child templates can override.
 
