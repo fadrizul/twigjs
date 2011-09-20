@@ -40,11 +40,11 @@ class Parser
 
           if x.LBracket.test(part)
             filters.push
-              name: filter_name[0]
+              name: part.replace(/\(.+\)/, "")
               args: part.replace(x.Symbols, "").split(",")
           else
             filters.push
-              name: filter_name[0]
+              name: part
               args: []
         
         # Create the parser tree

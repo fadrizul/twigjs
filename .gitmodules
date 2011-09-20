@@ -4,3 +4,6 @@
 [submodule "dev/eyes"]
 	path = dev/eyes
 	url = git://github.com/cloudhead/eyes.js.git
+[submodule "dev/nodeunit"]
+	path = dev/nodeunit
+	url = git://github.com/caolan/nodeunit.git
