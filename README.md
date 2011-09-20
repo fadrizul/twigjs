@@ -84,7 +84,7 @@ The {% extends %} tag is the key here. It tells the template engine that this te
 To run test cases type the commands as you see below:
 	
 	$ cd node_modules/twigjs
-	$ dev/bin/nodeunit tests/parser.test.coffee
+	$ dev/nodeunit/bin/nodeunit tests/parser.test.coffee
 If you have nodeunit installed then simply type:
 
 	$ nodeunit test/parser.test.coffee
