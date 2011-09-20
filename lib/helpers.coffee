@@ -71,11 +71,6 @@ exports.escape = (variable, context) ->
 
   chain.replace(/\n/g, "\\n").replace /\r/g, "\\r"
 
-exports.merge = (a, b) ->
-  if a and b
-    for key of b
-      a[key] = b[key]  if b.hasOwnProperty(key)
-  a
 
 exports.isLiteral        = isLiteral
 exports.isValidName      = isValidName
