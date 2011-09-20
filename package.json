@@ -2,7 +2,7 @@
   "author": "Fadrizul Hasani <fadrizul@twigjs.org> (github.com/fadrizul)",
   "name": "twigjs",
   "description": "A port of PHP template engine (www.twig-project.org) to Javascript",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "homepage": "twigjs.org",
   "repository": {
     "type": "git",
