@@ -79,12 +79,19 @@ A child template might look like this:
 	{% endblock %}
 
 The {% extends %} tag is the key here. It tells the template engine that this template “extends” another template. When the template system evaluates this template, first it locates the parent. The extends tag should be the first tag in the template.
+
+## Running tests
+To run test cases type the commands as you see below:
 	
+	$ cd node_modules/twigjs
+	$ dev/bin/nodeunit tests/parser.test.coffee
+If you have nodeunit installed then simply type:
+
+	$ nodeunit test/parser.test.coffee
 
 ## To-do list
 1. Documentation
 2. Finish up twigjs.org
-3. Test cases
 
 ## License
 
