@@ -42,7 +42,7 @@ The application passes variables to the templates you can mess around in the tem
 
 You can use a dot (.) to access attributes of a variable, alternative the so-called “subscript” syntax ([]) can be used. The following lines do the same:
 
-	{ foo.bar }}
+	{{ foo.bar }}
 	{{ foo['bar'] }}
 *It’s important to know that the curly braces are not part of the variable but the print statement. If you access variables inside tags don’t put the braces around.
 
