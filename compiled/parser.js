@@ -11,7 +11,7 @@ Parser = (function() {
     this.tags = tags || {};
   }
   Parser.prototype.parseTokens = function() {
-    var filterName, filters, i, index, nextIndex, part, parts, stack, tagname, token, varname, _i, _len, _len2, _ref;
+    var filters, i, index, nextIndex, part, parts, stack, tagname, token, varname, _i, _len, _len2, _ref;
     stack = [[]];
     index = 0;
     _ref = this.rawTokens;
@@ -30,16 +30,15 @@ Parser = (function() {
           part = parts[_i];
           if (parts.hasOwnProperty(part)) {
             parts = parts[part];
-            filterName = part.match(/^\w+/);
           }
           if (x.LBracket.test(part)) {
             filters.push({
-              name: filter_name[0],
+              name: part.replace(/\(.+\)/, ""),
               args: part.replace(x.Symbols, "").split(",")
             });
           } else {
             filters.push({
-              name: filter_name[0],
+              name: part,
               args: []
             });
           }
