@@ -87,7 +87,7 @@ To run test cases type the commands as you see below:
 	$ dev/nodeunit/bin/nodeunit tests/parser.test.coffee
 If you have nodeunit installed then simply type:
 
-	$ nodeunit test/parser.test.coffee
+	$ nodeunit tests/parser.test.coffee
 
 ## To-do list
 1. Documentation
