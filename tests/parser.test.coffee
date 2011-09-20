@@ -99,7 +99,7 @@ exports.Variable = testCase
 				test.deepEqual([equals], output)
 				test.done()
 
-		"Filters do not carry over" : (test) ->
+		"Do not carry over filters" : (test) ->
 				parser = new Parser("{{ foo|bar}}{{ baz }}", {})
 				output = parser.parseTokens()
 				filters = 
