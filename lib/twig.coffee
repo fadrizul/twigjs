@@ -10,11 +10,10 @@ fs = require "fs"
 # Load local lib
 Parser   = require "./parser"
 Compiler = require "./compiler"
-tags     = require "./tags"
-widgets  = require "./widgets"
+nodes    = require "./nodes"
 
 # Expose
-exports.version  = "v0.0.4"
+exports.version  = "v0.0.5"
 exports.Parser   = Parser
 exports.Compiler = Compiler
 
@@ -28,7 +27,7 @@ fileRenderer = (path, options, fn) ->
   str    = fs.readFileSync(path, "utf8")
   tokens = {}
   if str
-    parser = new Parser(str, tags)
+    parser = new Parser(str, nodes)
     tokens = parser.parseTokens()
   
   return tokens
@@ -42,7 +41,7 @@ parse = (str, options) ->
     options      : options
 
   # Declare new instance for Parser and returns twigtokens
-  parser              = new Parser str, tags
+  parser              = new Parser str, nodes
   twigTemplate.tokens = parser.parseTokens()
 
   # Compiles twigTokens obj into javascript
@@ -61,7 +60,7 @@ exports.compile = compile = (str, options) ->
   # Rearrange the compiled input
   js  = "buf.push(#{ input })"
   fn  = "var __ = {
-        filename: #{ filename }};
+        filename : #{ filename }};
         var buf = []; with (locals || {}) {#{ js }}
         return buf.join('');"
 

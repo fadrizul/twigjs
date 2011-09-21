@@ -5,8 +5,7 @@ MIT Licensed
 ###
 
 # Module dependencies
-x       = require "./regexes"
-helpers = require "./helpers"
+x = require "./regexes"
 
 # Compiler class
 class Compiler
@@ -46,7 +45,7 @@ class Compiler
             blockName = token.args
 
             # Throw errors if invalid block name 
-            throw new Error "Invalid syntax." if not helpers.isValidBlockName blockName
+            throw new Error "Invalid syntax." if not @isValidBlockName blockName
             # Doesn't support nested blocks
             throw new Error "Multiple block tag detected" if @type isnt x.TEMPLATE
 
@@ -100,6 +99,9 @@ class Compiler
 
     # Join the elements and returns it
     @html.join ""
+
+  isValidBlockName: (string) ->
+    x.VALID_BLOCK_NAME.test string
 
 # Expose
 Compile = exports = module.exports = Compiler

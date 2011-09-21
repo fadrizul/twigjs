@@ -9,9 +9,9 @@ x  = require "./regexes"
 
 # This class create the Parser tree
 class Parser
-  constructor : (str, tags) ->
+  constructor : (str, nodes) ->
     @rawTokens = if str then str.trim().replace(x.Replace, "").split(x.Split) else {} # Rearranges str in to array
-    @tags      = tags or {} # Sets valid tags
+    @tags      = nodes or {} # Sets valid tags
 
   token : (type, name, args) ->
     if type is x.VAR_TOKEN
@@ -31,7 +31,6 @@ class Parser
   parseTokens : ->
     stack = [ [] ] # Create empty array needed to be passed
     index = 0 # To differentiate between valid tags and string
-
     # Loop through @rawTokens
     for token, i in @rawTokens
       # If there are comment delimters {# #} ignore it
@@ -44,7 +43,7 @@ class Parser
       # Get variable delimiters {{ }}
       else if x.twigVar.test(token)
         # Pushes the new tree into stack
-        stack[0].push @variable(token)
+        stack[0].push @parseVar(token)
 
       # Get Logic delimiters {% %}
       else if x.twigLogic.test(token)
@@ -64,14 +63,15 @@ class Parser
         # Create the parser tree
         args  = if parts.length then parts else []
         token = @token(x.LOGIC_TOKEN, tagname, args)
-        
+
         # Pushes extends tag into stack
         if tagname is "extends"
-          stack[index].push(token)
+          stack[0].push(token)
 
         # If it's the end of the tag, pushes the string
         # in between the tags in to stack and reset index to 0
-        if @tags[tagname].ends
+        tag = new @tags[tagname]
+        if tag.ends() is true
           nextIndex = i + 1
           token[parts] = @rawTokens[nextIndex]
           @rawTokens.splice(nextIndex, 1)
@@ -87,7 +87,7 @@ class Parser
     # return the new Parser tree
     return stack[index]
 
-  variable : (token) ->   
+  parseVar : (token) ->   
     parts   = token.replace(x.VarDelimiter, "").split("|") # Check for var|var and split into parts
     varname = parts.shift() # Get the variable name
     filters = @parseFilters(parts)
@@ -122,3 +122,4 @@ exports.TOKEN_TYPES =
   TEMPLATE : x.TEMPLATE
   LOGIC    : x.LOGIC_TOKEN
   VAR      : x.VAR_TOKEN
+ 
