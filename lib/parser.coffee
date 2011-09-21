@@ -15,15 +15,17 @@ class Parser
 
   token : (type, name, args) ->
     if type is x.VAR_TOKEN
-      prop = "filters"
+      token = 
+        type    : type
+        name    : name
+        filters : args
+      
     else 
-      prop = "args"
+      token = 
+        type : type
+        name : name
+        args : args
 
-    token = 
-      type : type
-      name : name
-      prop : args
-    
     return token
 
   parseTokens : ->
@@ -60,10 +62,8 @@ class Parser
         throw new Error("Unknown logic tag: #{tagname} ") unless (tagname of @tags)
 
         # Create the parser tree
-        token =
-          type    : x.LOGIC_TOKEN
-          name    : tagname
-          args    : if parts.length then parts else []
+        args  = if parts.length then parts else []
+        token = @token(x.LOGIC_TOKEN, tagname, args)
         
         # Pushes extends tag into stack
         if tagname is "extends"
