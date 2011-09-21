@@ -9,11 +9,24 @@ x  = require "./regexes"
 
 # This class create the Parser tree
 class Parser
-  constructor: (str, tags) ->
+  constructor : (str, tags) ->
     @rawTokens = if str then str.trim().replace(x.Replace, "").split(x.Split) else {} # Rearranges str in to array
     @tags      = tags or {} # Sets valid tags
 
-  parseTokens: ->
+  token : (type, name, args) ->
+    if type is x.VAR_TOKEN
+      prop = "filters"
+    else 
+      prop = "args"
+
+    token = 
+      type : type
+      name : name
+      prop : args
+    
+    return token
+
+  parseTokens : ->
     stack = [ [] ] # Create empty array needed to be passed
     index = 0 # To differentiate between valid tags and string
 
@@ -28,32 +41,8 @@ class Parser
 
       # Get variable delimiters {{ }}
       else if x.twigVar.test(token)
-        filters = []
-        parts   = token.replace(x.VarDelimiter, "").split("|") # Check for var|var and split into parts
-        varname = parts.shift() # Get the variable name
-
-        # Loop through the parts
-        for part in parts
-          if parts.hasOwnProperty(part)
-            parts       = parts[part]
-
-          if x.LBracket.test(part)
-            filters.push
-              name: part.replace(/\(.+\)/, "")
-              args: part.replace(x.Symbols, "").split(",")
-          else
-            filters.push
-              name: part
-              args: []
-        
-        # Create the parser tree
-        token =
-          type    : x.VAR_TOKEN
-          name    : varname
-          filters : filters
-        
         # Pushes the new tree into stack
-        stack[0].push token
+        stack[0].push @variable(token)
 
       # Get Logic delimiters {% %}
       else if x.twigLogic.test(token)
@@ -62,7 +51,7 @@ class Parser
 
         # Pop out if the tagname is "endblock"
         # and sets index to -1 
-        if tagname is "endblock"
+        if tagname is "endblock" or tagname is "endfor"
           index--
           stack.pop
           continue
@@ -75,7 +64,6 @@ class Parser
           type    : x.LOGIC_TOKEN
           name    : tagname
           args    : if parts.length then parts else []
-          compile : @tags[tagname]
         
         # Pushes extends tag into stack
         if tagname is "extends"
@@ -98,6 +86,34 @@ class Parser
 
     # return the new Parser tree
     return stack[index]
+
+  variable : (token) ->   
+    parts   = token.replace(x.VarDelimiter, "").split("|") # Check for var|var and split into parts
+    varname = parts.shift() # Get the variable name
+    filters = @parseFilters(parts)
+    
+    # Create the parser tree
+    return @token(x.VAR_TOKEN, varname, filters)
+
+  parseFilters : (parts) ->
+    filters = []
+    
+    # Loop through the parts
+    for part in parts
+      if parts.hasOwnProperty(part)
+        parts       = parts[part]
+        filterName  = part.match(/^\w+/)
+
+      if x.LBracket.test(part)
+        filters.push
+          name: part.replace(/\(.+\)/, "")
+          args: part.replace(x.Symbols, "").split(",")
+      else
+        filters.push
+          name: part
+          args: []
+
+    return filters
 
 # Expose Parser class, TEMPLATE const and token types
 Parser = exports = module.exports = Parser
