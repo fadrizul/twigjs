@@ -3,9 +3,8 @@ TwigJS
 Copyright(c) 2011 Fadrizul Hasani <fadrizul@twigjs.org>
 MIT Licensed
 */
-var Compile, Compiler, exports, helpers, x;
+var Compile, Compiler, exports, x;
 x = require("./regexes");
-helpers = require("./helpers");
 Compiler = (function() {
   function Compiler(node) {
     this.node = node || {};
@@ -30,7 +29,7 @@ Compiler = (function() {
             parent = this.node.fileRenderer(path, this.node.options);
           } else if (token.name === "block") {
             blockName = token.args;
-            if (!helpers.isValidBlockName(blockName)) {
+            if (!this.isValidBlockName(blockName)) {
               throw new Error("Invalid syntax.");
             }
             if (this.type !== x.TEMPLATE) {
@@ -79,6 +78,9 @@ Compiler = (function() {
       }
     }
     return this.html.join("");
+  };
+  Compiler.prototype.isValidBlockName = function(string) {
+    return x.VALID_BLOCK_NAME.test(string);
   };
   return Compiler;
 })();

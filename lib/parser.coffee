@@ -43,7 +43,7 @@ class Parser
       # Get variable delimiters {{ }}
       else if x.twigVar.test(token)
         # Pushes the new tree into stack
-        stack[0].push @parseVar(token)
+        stack[0].push @variable(token)
 
       # Get Logic delimiters {% %}
       else if x.twigLogic.test(token)
@@ -52,7 +52,7 @@ class Parser
 
         # Pop out if the tagname is "endblock"
         # and sets index to -1 
-        if tagname is "endblock" or tagname is "endfor"
+        if tagname is "endblock" or tagname is "endfor" or tagname is "endif"
           index--
           stack.pop
           continue
@@ -87,7 +87,7 @@ class Parser
     # return the new Parser tree
     return stack[index]
 
-  parseVar : (token) ->   
+  variable : (token) ->   
     parts   = token.replace(x.VarDelimiter, "").split("|") # Check for var|var and split into parts
     varname = parts.shift() # Get the variable name
     filters = @parseFilters(parts)

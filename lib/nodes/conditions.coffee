@@ -5,6 +5,7 @@ MIT Licensed
 ###
 
 class Conditions 
-	constructor: ->
+	ends: -> 
+		return true
 
 module.exports = Conditions
