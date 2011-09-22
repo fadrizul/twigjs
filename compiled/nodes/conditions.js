@@ -6,6 +6,9 @@ MIT Licensed
 var Conditions;
 Conditions = (function() {
   function Conditions() {}
+  Conditions.prototype.ends = function() {
+    return true;
+  };
   return Conditions;
 })();
 module.exports = Conditions;

@@ -40,11 +40,11 @@ Parser = (function() {
       if (x.Spaces.test(token)) {
         token = token.replace(RegExp(" +"), " ").replace(/\n+/, "\n");
       } else if (x.twigVar.test(token)) {
-        stack[0].push(this.parseVar(token));
+        stack[0].push(this.variable(token));
       } else if (x.twigLogic.test(token)) {
         parts = token.replace(x.LogDelimiter, "").split(" ");
         tagname = parts.shift();
-        if (tagname === "endblock" || tagname === "endfor") {
+        if (tagname === "endblock" || tagname === "endfor" || tagname === "endif") {
           index--;
           stack.pop;
           continue;
@@ -74,7 +74,7 @@ Parser = (function() {
     }
     return stack[index];
   };
-  Parser.prototype.parseVar = function(token) {
+  Parser.prototype.variable = function(token) {
     var filters, parts, varname;
     parts = token.replace(x.VarDelimiter, "").split("|");
     varname = parts.shift();
