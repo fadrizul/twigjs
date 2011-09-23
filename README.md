@@ -31,8 +31,8 @@ First we need to declare the extension of your view files. This can be anything 
 	app.get('/index', function (req, res) {
 		res.render('index', {
     		  // Declaring values for {{ }} tags
-			  name   : "Fadrizul H." 
-			, title  : "Fadrizul's Website"
+			  name   : "Your Name" 
+			, title  : "Your Website"
 		});
 	});
 To set values for variable tags, you need to include it as options in res.render() function. In this example we're setting values for {{ name }} and {{ title }}.
@@ -59,10 +59,11 @@ This template, which we’ll call base.html, defines a simple HTML skeleton docu
 	<head>
 	  {% block head %}
 	    <link rel="stylesheet" href="style.css" />
-	    <title>{{ title }} - My Webpage</title>
+	    <title>{{ name }} - My Webpage</title>
 	  {% endblock %}
 	</head>
 	<body>
+	  {{ title }}
 	  {% block title %}{% endblock %}
 
 	  <div id="content">{% block content %}{% endblock %}</div>
@@ -86,7 +87,6 @@ A child template might look like this:
 	  </style>
 	{% endblock %}
 	{% block content %}
-	  <h1>{{ name }}</h1>
 	  <p class="important">
 	    Welcome on my awesome homepage.
 	  </p>
