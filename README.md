@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/fadrizul/twigjs.png)](http://travis-ci.org/fadrizul/twigjs)
 # TwigJS
 
 A port of PHP template engine (www.twig-project.org) to Javascript
