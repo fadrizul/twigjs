@@ -1,3 +1,7 @@
+This project is no longer maintained. Please see the active js port of Twig at https://github.com/twigjs/twig.js/
+
+-----
+
 # TwigJS
 
 A port of PHP template engine (www.twig-project.org) to Javascript
