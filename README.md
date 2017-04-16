@@ -10,7 +10,7 @@ Via NPM:
 
 ## Usage example
 
-###With ExpressJS
+### With ExpressJS
 First we need to declare the extension of your view files. This can be anything you want; you just need to declare it in app.set('view engine'). What's important here is app.register(), you would need to require('twigjs') first, and then sets app.register as you see below.
 	
 	// Configuring your view files extension
@@ -37,7 +37,7 @@ First we need to declare the extension of your view files. This can be anything 
 	});
 To set values for variable tags, you need to include it as options in res.render() function. In this example we're setting values for {{ name }} and {{ title }}.
 
-###Variables
+### Variables
 The application passes variables to the templates you can mess around in the template. Variables may have attributes or elements on them you can access too. How a variable looks like, heavily depends on the application providing those.
 
 You can use a dot (.) to access attributes of a variable, alternative the so-called “subscript” syntax ([]) can be used. The following lines do the same:
@@ -46,12 +46,12 @@ You can use a dot (.) to access attributes of a variable, alternative the so-cal
 	{{ foo['bar'] }}
 *It’s important to know that the curly braces are not part of the variable but the print statement. If you access variables inside tags don’t put the braces around.
 
-###Template inheritance
+### Template inheritance
 The most powerful part of TwigJS is template inheritance. Template inheritance allows you to build a base “skeleton” template that contains all the common elements of your site and defines blocks that child templates can override.
 
 Sounds complicated but is very basic. It’s easiest to understand it by starting with an example.
 
-####Base Template
+#### Base Template
 This template, which we’ll call base.html, defines a simple HTML skeleton document that you might use for a simple two-column page. It’s the job of “child” templates to fill the empty blocks with content:
 
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
@@ -76,7 +76,7 @@ This template, which we’ll call base.html, defines a simple HTML skeleton docu
 	</html>
 In this example, the {% block %} tags define four blocks that child templates can fill in. All the block tag does is to tell the template engine that a child template may override those portions of the template.
 
-####Child Template
+#### Child Template
 A child template might look like this:
 
 	{% extends "base.html" %}
